@@ -15,9 +15,9 @@ public class Factorial {
 
     }
 
-    public static void imprimir(int num, int resaultado){
+    public static void imprimir(int num, int resultado){
 
-        System.out.println("El factorial del numero " + num + " es:" + resaultado);
+        System.out.println("El factorial del numero " + num + " es: " + resultado);
 
     }
 
