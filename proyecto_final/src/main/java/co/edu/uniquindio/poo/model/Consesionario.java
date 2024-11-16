@@ -13,12 +13,18 @@ public class Consesionario {
 
     private List<Transaccion> listaTransacciones;
 
-    public Consesionario(String nombre, String direccion, String telefono) {
+    private List<Cliente> listaClientes;
+
+    private Empleado sesionActiva;
+
+    public Consesionario(String nombre, String direccion, String telefono, Empleado sesionActiva) {
         this.nombre = nombre;
         this.direccion = direccion;
         this.telefono = telefono;
+        this.sesionActiva = sesionActiva;
         listaEmpleados = new ArrayList<>();
         listaVehiculos = new ArrayList<>();
+        listaClientes = new ArrayList<>();
     }
 
     public String getNombre() {
@@ -45,48 +51,146 @@ public class Consesionario {
         this.telefono = telefono;
     }
 
-    public void registrarVehiculo(Vehiculo vehiculo){
+    public void registrarVehiculo(Vehiculo vehiculo) {
+        listaVehiculos.add(vehiculo);
 
     }
 
-    + eliminarVehiculo(String placa)
+    public boolean eliminarVehiculo(String placa) {
+        return listaVehiculos.removeIf(vehiculo -> vehiculo.getPlaca().equalsIgnoreCase(placa));
+    }
 
-    + buscarVehiculoPorTipo()
+    public List<Vehiculo> buscarVehiculosPorTipo(String tipo) {
+        List<Vehiculo> resultado = new ArrayList<>();
+        for (Vehiculo vehiculo : listaVehiculos) {
+            if (vehiculo.getTipo().equalsIgnoreCase(tipo)) {
+                resultado.add(vehiculo);
+            }
+        }
+        return resultado;
+    }
 
-    + vehiculosDisponibles()
+    public void vehiculosDisponibles() {
+        for (Vehiculo vehiculo : listaVehiculos) {
+            System.out.println(vehiculo);
+        }
+    }
 
-    + registrarCliente(Cliente cliente)
 
-    + buscarCliente(String cedula)
+    public void registrarCliente(Cliente cliente) {
+    listaClientes.add(cliente);
+    }
 
-    + eliminarCliente(String cedula)
+    public Cliente buscarCliente(String cedula) {
+        for (Cliente cliente : listaClientes) {
+            if (cliente.getCedula().equalsIgnoreCase(cedula)) {
+                return cliente;
+            }
+        }
+        return null;
+    }
 
-    + registrarEmpleado(Empleado empleado)
+    public boolean eliminarCliente(String cedula) {
+        return listaClientes.removeIf(cliente -> cliente.getCedula().equalsIgnoreCase(cedula));
+    }
 
-    + buscarEmpleado(String cedula)
 
-    + eliminarEmpleado(String cedula)
+    public void registrarEmpleado(Empleado empleado) {
+        listaEmpleados.add(empleado);
+    }
+
+    public Empleado buscarEmpleado(String cedula) {
+        for (Empleado empleado : listaEmpleados) {
+            if (empleado.getCedula().equalsIgnoreCase(cedula)) {
+                return empleado;
+            }
+        }
+        return null;
+    }
+
+    public boolean eliminarEmpleado(String cedula) {
+        return listaEmpleados.removeIf(empleado -> empleado.getCedula().equalsIgnoreCase(cedula));
+    }
     
-    + realizarTransaccion(Transaccion transaccion)
+    public void realizarTransaccion(Transaccion transaccion) {
+        listaTransacciones.add(transaccion);
+    }
 
-    + listarTransacciones()
+    public void generarReportePorTipo(TipoTransaccion tipo) {
+        System.out.println("Reporte de transacciones: " + tipo);
+        listaTransacciones.stream()
+                .filter(transaccion -> transaccion.getTipo() == tipo)
+                .forEach(System.out::println);
+    }
 
-    + buscarTransaccion(String idTransaccion)
+    public Transaccion buscarTransaccion(String idTransaccion) {
+        for (Transaccion transaccion : listaTransacciones) {
+            if (transaccion.getIdTransaccion().equalsIgnoreCase(idTransaccion)) {
+                return transaccion;
+            }
+        }
+        return null;
+    }
 
-    + generarReporteVentas()
+    public void generarReporteVentas() {
+        generarReportePorTipo(TipoTransaccion.VENTA);
+    }
 
-    + generarReportesAlquileres()
+    public void generarReportesAlquileres() {
+        generarReportePorTipo(TipoTransaccion.ALQUILER);
+    }
 
-    + generarReportesCompras()
+    public void generarReportesCompras() {
+        generarReportePorTipo(TipoTransaccion.COMPRA);
+    }
 
-    + iniciarSesionEmpleado(String username, String contrasenia)
+    public boolean iniciarSesionEmpleado(String username, String contrasenia) {
+        // Verificar si ya hay una sesión activa
+        if (sesionActiva != null) {
+            System.out.println("Ya hay una sesión activa con el usuario: " + sesionActiva.getUsername());
+            return false;
+        }
+    
+        // Buscar al empleado y verificar las credenciales
+        for (Empleado empleado : listaEmpleados) {
+            if (empleado.getUsername().equalsIgnoreCase(username) && 
+                empleado.getContrasenia().equals(contrasenia)) {
+                sesionActiva = empleado; // Registrar la sesión activa
+                System.out.println("Inicio de sesión exitoso para el usuario: " + username);
+                return true;
+            }
+        }
+    
+        // Mensaje de credenciales incorrectas
+        System.out.println("Credenciales incorrectas.");
+        return false;
+    }
 
-    + recuperarContrasenia(String username)
+    public boolean recuperarContrasenia(String username) {
+        for (Empleado empleado : listaEmpleados) {
+            if (empleado.getUsername().equalsIgnoreCase(username)) {
+                System.out.println("Nueva contraseña: 123456 (Ejemplo: enviarla por correo)");
+                empleado.setContrasenia("123456");
+                return true;
+            }
+        }
+        return false;
+    }
 
-    + cerrarSesion()
+    public void cerrarSesion() {
+        sesionActiva = null;
+    }
 
-    + verificarEstadoVehiculo()
+    public void verificarEstadoVehiculo(EstadoVehiculo estado) {
+        System.out.println("Vehículos con estado: " + estado);
+        // Filtramos los vehículos por estado y los mostramos
+        for (Vehiculo vehiculo : listaVehiculos) {
+            if (vehiculo.getEstado() == estado) {
+                System.out.println(vehiculo); // Imprime el vehículo si coincide con el estado
+            }
+        }
+    }
 
-    + calcularCosto
+    //+ calcularCosto
 
 }

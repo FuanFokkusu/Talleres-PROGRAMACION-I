@@ -6,9 +6,10 @@ public class VanCombustible extends VehiculoCombustible{
 
     private boolean aireAcondicionado, camaraReversa, abs;
 
-    public VanCombustible(int capacidadTanque, int numerPasajeros, int numPuertas, int capacidadMaletero,
-            int numBolsasAire, boolean aireAcondicionado, boolean camaraReversa, boolean abs) {
-        super(capacidadTanque);
+    public VanCombustible(String marca, String placa, String modelo, int cambios, int cilindraje, int velocidadMax,
+            int capacidadTanque, int numerPasajeros, int numPuertas, int capacidadMaletero, int numBolsasAire,
+            boolean aireAcondicionado, boolean camaraReversa, boolean abs) {
+        super(marca, placa, modelo, cambios, cilindraje, velocidadMax, capacidadTanque);
         this.numerPasajeros = numerPasajeros;
         this.numPuertas = numPuertas;
         this.capacidadMaletero = capacidadMaletero;

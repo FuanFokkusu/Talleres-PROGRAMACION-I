@@ -1,26 +1,32 @@
 package co.edu.uniquindio.poo.model;
 
-public class Vehiculo {
+public abstract class Vehiculo {
 
     private String marca, placa, modelo;
 
     private int cambios, cilindraje, velocidadMax;
     
-    private Estado estado;
+    private EstadoVehiculo estado;
 
     private TipoTransmision tipoTransmision;
 
     private TipoCombustible tipoCombustible;
 
-    public Vehiculo(String marca, String placa, String modelo, int cambios, int cilindraje, int velocidadMax) {
+    
+
+
+    public Vehiculo(String marca, String placa, String modelo, int cambios, int cilindraje, int velocidadMax,
+            EstadoVehiculo estado, TipoTransmision tipoTransmision, TipoCombustible tipoCombustible) {
         this.marca = marca;
         this.placa = placa;
         this.modelo = modelo;
         this.cambios = cambios;
         this.cilindraje = cilindraje;
         this.velocidadMax = velocidadMax;
+        this.estado = estado;
+        this.tipoTransmision = tipoTransmision;
+        this.tipoCombustible = tipoCombustible;
     }
-
 
     public String getMarca() {
         return marca;
@@ -70,11 +76,11 @@ public class Vehiculo {
         this.velocidadMax = velocidadMax;
     }
 
-    public Estado getEstado() {
+    public EstadoVehiculo getEstado() {
         return estado;
     }
 
-    public void setEstado(Estado estado) {
+    public void setEstado(EstadoVehiculo estado) {
         this.estado = estado;
     }
 
@@ -93,7 +99,8 @@ public class Vehiculo {
     public void setTipoCombustible(TipoCombustible tipoCombustible) {
         this.tipoCombustible = tipoCombustible;
     }
-
+    
+    public abstract String getTipo();
     
 
 }

@@ -1,6 +1,6 @@
 package co.edu.uniquindio.poo.model;
 
-public enum Estado {
+public enum EstadoVehiculo {
 
     NUEVO,
     USADO
